@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c195task1.controller.LogIn">
+   <children>
+      <Label fx:id="lblLogIn" layoutX="50.0" layoutY="60.0" text="Log In">
+         <font>
+            <Font size="24.0" />
+         </font></Label>
+      <Label fx:id="lblZoneId" layoutX="580.0" layoutY="60.0" text="Zone ID:">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+      <Label fx:id="lblZoneIdOut" layoutX="680.0" layoutY="60.0" text="en-US">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+      <Label fx:id="lblUsername" layoutX="50.0" layoutY="170.0" text="Username" />
+      <TextField fx:id="txtUsername" layoutX="200.0" layoutY="170.0" />
+      <Label fx:id="lblPassword" layoutX="50.0" layoutY="220.0" text="Password" />
+      <PasswordField fx:id="txtPassword" layoutX="200.0" layoutY="220.0" />
+      <Button layoutX="690.0" layoutY="310.0" mnemonicParsing="false" text="Log In" />
+      <Label fx:id="lblLogInError" layoutX="50.0" layoutY="293.0" text="Error:" textFill="red" />
+      <Label fx:id="lblLogInErrorMsg" layoutX="200.0" layoutY="293.0" text="AN ERROR MESSAGE" textFill="red" />
+   </children>
+</AnchorPane>

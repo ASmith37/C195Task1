@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c195task1.view.AppointmentAddUpdate">
+    <children>
+        <Label fx:id="lblAddUpdateAppt" layoutX="30.0" layoutY="21.0" text="Add / Update Appointment">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <Label fx:id="lblApptId" layoutX="100.0" layoutY="118.0" text="ID:" />
+        <TextField fx:id="txtApptId" disable="true" layoutX="250.0" layoutY="114.0" />
+
+        <Label fx:id="lblApptTitle" layoutX="100.0" layoutY="168.0" text="Title:" />
+        <TextField fx:id="txtApptTitle" layoutX="250.0" layoutY="164.0" />
+
+        <Label fx:id="lblApptDescription" layoutX="100.0" layoutY="218.0" text="Description:" />
+        <TextField fx:id="txtApptDescription" layoutX="250.0" layoutY="214.0" />
+
+        <Label fx:id="lblApptLocation" layoutX="100.0" layoutY="268.0" text="Location:" />
+        <TextField fx:id="txtApptLocation" layoutX="250.0" layoutY="264.0" />
+
+        <Label fx:id="lblApptContact" layoutX="100.0" layoutY="318.0" text="Contact:" />
+        <TextField fx:id="txtApptContact" layoutX="250.0" layoutY="314.0" />
+
+        <Label fx:id="lblApptType" layoutX="100.0" layoutY="368.0" text="Type:" />
+        <TextField fx:id="txtApptType" layoutX="250.0" layoutY="364.0" />
+
+        <Label fx:id="lblApptStartDateTime" layoutX="100.0" layoutY="418.0" text="Start Date &amp; Time:" />
+        <TextField fx:id="txtApptStartDateTime" layoutX="250.0" layoutY="414.0" />
+
+        <Label fx:id="lblApptEndDateTime" layoutX="100.0" layoutY="468.0" text="End Date &amp; Time:" />
+        <TextField fx:id="txtApptEndDateTime" layoutX="250.0" layoutY="464.0" />
+
+        <Label fx:id="lblApptCustId" layoutX="100.0" layoutY="518.0" text="Customer ID:" />
+        <TextField fx:id="txtApptCustId" layoutX="250.0" layoutY="514.0" />
+
+        <Label fx:id="lblApptUserId" layoutX="100.0" layoutY="568.0" text="User ID:" />
+        <TextField fx:id="txtApptUserId" layoutX="250.0" layoutY="564.0" />
+
+        <Button fx:id="btnApptSave" layoutX="620.0" layoutY="730.0" mnemonicParsing="false" text="Save" />
+        <Button fx:id="btnApptCancel" layoutX="698.0" layoutY="730.0" mnemonicParsing="false" text="Cancel" />
+
+
+    </children>
+
+</AnchorPane>

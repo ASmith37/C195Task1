@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c195task1.view.MainScreen">
+   <children>
+      <Pane layoutX="14.0" layoutY="382.0" prefHeight="403.0" prefWidth="1407.0" style="-fx-border-color: black;">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Appointments">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <TableView layoutX="15.0" layoutY="55.0" prefHeight="295.0" prefWidth="1379.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="Title" />
+                <TableColumn prefWidth="75.0" text="Description" />
+                 <TableColumn prefWidth="75.0" text="Location" />
+                 <TableColumn prefWidth="75.0" text="Contact" />
+              </columns>
+            </TableView>
+            <Button fx:id="btnDeleteAppt" layoutX="1343.0" layoutY="364.0" mnemonicParsing="false" text="Delete" />
+            <Button fx:id="btnEditAppt" layoutX="1278.0" layoutY="364.0" mnemonicParsing="false" text="Edit" />
+            <Button fx:id="btnAddAppt" layoutX="1208.0" layoutY="364.0" mnemonicParsing="false" text="Add" />
+            <RadioButton layoutX="1341.0" layoutY="23.0" mnemonicParsing="false" text="Week" />
+            <RadioButton layoutX="1268.0" layoutY="23.0" mnemonicParsing="false" text="Month" />
+            <RadioButton layoutX="1209.0" layoutY="23.0" mnemonicParsing="false" text="All" />
+         </children></Pane>
+      <Pane layoutX="1436.0" layoutY="14.0" prefHeight="247.0" prefWidth="150.0" style="-fx-border-color: black;">
+         <children>
+            <Label layoutX="13.0" layoutY="17.0" text="Reports">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnRptTotalAppt" layoutX="13.0" layoutY="57.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="120.0" text="Total Appointments" />
+            <Button fx:id="btnRptSchedule" layoutX="13.0" layoutY="113.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="120.0" text="Schedule" />
+            <Button fx:id="btnRptOther" layoutX="13.0" layoutY="176.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="120.0" text="Other" />
+
+         </children></Pane>
+      <Pane layoutX="14.0" layoutY="14.0" prefHeight="353.0" prefWidth="1407.0" style="-fx-border-color: black;">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Customers">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <TableView layoutX="15.0" layoutY="55.0" prefHeight="247.0" prefWidth="1379.0">
+               <columns>
+                  <TableColumn prefWidth="75.0" text="ID" />
+                  <TableColumn prefWidth="75.0" text="Name" />
+                  <TableColumn prefWidth="75.0" text="Address" />
+                  <TableColumn prefWidth="75.0" text="PostCode" />
+                  <TableColumn prefWidth="75.0" text="Phone" />
+                  <TableColumn prefWidth="75.0" text="Country" />
+                  <TableColumn prefWidth="75.0" text="Division" />
+               </columns>
+            </TableView>
+            <Button fx:id="btnDeleteCust" layoutX="1342.0" layoutY="314.0" mnemonicParsing="false" text="Delete" />
+            <Button fx:id="btnEditCust" layoutX="1277.0" layoutY="314.0" mnemonicParsing="false" text="Edit" />
+            <Button fx:id="btnAddCust" layoutX="1207.0" layoutY="314.0" mnemonicParsing="false" text="Add" />
+         </children></Pane>
+   </children>
+</AnchorPane>
