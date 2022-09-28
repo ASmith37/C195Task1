@@ -1,5 +1,6 @@
 package com.example.c195task1.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -22,5 +23,8 @@ public class LogIn implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+    }
+
+    public void onBtnLogIn(ActionEvent actionEvent) {
     }
 }

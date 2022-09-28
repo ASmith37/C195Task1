@@ -22,7 +22,7 @@
       <TextField fx:id="txtUsername" layoutX="200.0" layoutY="170.0" />
       <Label fx:id="lblPassword" layoutX="50.0" layoutY="220.0" text="Password" />
       <PasswordField fx:id="txtPassword" layoutX="200.0" layoutY="220.0" />
-      <Button layoutX="690.0" layoutY="310.0" mnemonicParsing="false" text="Log In" />
+      <Button fx:id="btnLogIn" layoutX="690.0" layoutY="310.0" mnemonicParsing="false" onAction="#onBtnLogIn" text="Log In" />
       <Label fx:id="lblLogInError" layoutX="50.0" layoutY="293.0" text="Error:" textFill="red" />
       <Label fx:id="lblLogInErrorMsg" layoutX="200.0" layoutY="293.0" text="AN ERROR MESSAGE" textFill="red" />
    </children>
