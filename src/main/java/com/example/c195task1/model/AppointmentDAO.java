@@ -12,7 +12,10 @@ public class AppointmentDAO {
     public static ObservableList<Appointment> getAllAppointments() throws SQLException {
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
         DBConnection.openConnection();
-        String sql = "SELECT * FROM appointments";
+        String sql = "SELECT Appointment_ID, `Title`, `Description`, Location, `Type`, `Start`, `End`, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID, Contact_Name\n" +
+                "FROM appointments\n" +
+                "LEFT JOIN contacts\n" +
+                "USING (Contact_ID);";
         Statement s = DBConnection.connection.createStatement();
         ResultSet r;
         r = s.executeQuery(sql);
@@ -32,7 +35,8 @@ public class AppointmentDAO {
                     r.getString(11),
                     r.getInt(12),
                     r.getInt(13),
-                    r.getInt(14)
+                    r.getInt(14),
+                    r.getString(15)
             ));
         }
         DBConnection.closeConnection();

@@ -1,33 +1,42 @@
 package com.example.c195task1.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Customer {
-    int customerId;
-    String customerName;
+    int id;
+    String name;
     String address;
     String postCode;
     String phone;
-    LocalDateTime createDate;
-    String createdBy;
-    LocalDateTime lastUpdate;
-    String lastUpdatedBy;
     int divisionId;
-    public int getCustomerId() {
-        return customerId;
+    String division;
+    String country;
+
+    public Customer(int id, String name, String address, String postCode, String phone, int divisionId, String division, String country) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.postCode = postCode;
+        this.phone = phone;
+        this.divisionId = divisionId;
+        this.division = division;
+        this.country = country;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public int getId() {
+        return id;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAddress() {
@@ -54,38 +63,6 @@ public class Customer {
         this.phone = phone;
     }
 
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public LocalDateTime getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(LocalDateTime lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-
-    public String getLastUpdatedBy() {
-        return lastUpdatedBy;
-    }
-
-    public void setLastUpdatedBy(String lastUpdatedBy) {
-        this.lastUpdatedBy = lastUpdatedBy;
-    }
-
     public int getDivisionId() {
         return divisionId;
     }
@@ -94,16 +71,19 @@ public class Customer {
         this.divisionId = divisionId;
     }
 
-    public Customer(int customerId, String customerName, String address, String postCode, String phone, LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy, int divisionId) {
-        this.customerId = customerId;
-        this.customerName = customerName;
-        this.address = address;
-        this.postCode = postCode;
-        this.phone = phone;
-        this.createDate = createDate;
-        this.createdBy = createdBy;
-        this.lastUpdate = lastUpdate;
-        this.lastUpdatedBy = lastUpdatedBy;
-        this.divisionId = divisionId;
+    public String getDivision() {
+        return division;
+    }
+
+    public void setDivision(String division) {
+        this.division = division;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

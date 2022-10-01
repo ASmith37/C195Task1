@@ -48,6 +48,7 @@ public class MainScreen implements Initializable {
     public TableColumn colApptEnd;
     public TableColumn colApptCustId;
     public TableColumn colApptUserId;
+    public TableColumn colApptContact;
     private ObservableList<Customer> allCustomers;
     private ObservableList<Appointment> allAppointments;
 
@@ -92,12 +93,28 @@ public class MainScreen implements Initializable {
         try {
             allCustomers = CustomerDAO.getAllCustomers();
             tblCustomers.setItems(allCustomers);
-            colCustId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
-            colCustName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+            colCustId.setCellValueFactory(new PropertyValueFactory<>("id"));
+            colCustName.setCellValueFactory(new PropertyValueFactory<>("name"));
+            colCustAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+            colCustPostCode.setCellValueFactory(new PropertyValueFactory<>("postCode"));
+            colCustPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+            colCustDivision.setCellValueFactory(new PropertyValueFactory<>("division"));
+            colCustCountry.setCellValueFactory(new PropertyValueFactory<>("country"));
 
             allAppointments = AppointmentDAO.getAllAppointments();
             tblAppointments.setItems(allAppointments);
             colApptId.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+            colApptTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+            colApptDesc.setCellValueFactory(new PropertyValueFactory<>("description"));
+            colApptLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
+            colApptLocation.setCellValueFactory(new PropertyValueFactory<>("contact"));
+            colApptType.setCellValueFactory(new PropertyValueFactory<>("type"));
+            colApptStart.setCellValueFactory(new PropertyValueFactory<>("start"));
+            colApptEnd.setCellValueFactory(new PropertyValueFactory<>("end"));
+            colApptCustId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+            colApptUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
+            colApptContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
