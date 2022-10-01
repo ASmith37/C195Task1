@@ -3,7 +3,7 @@ package com.example.c195task1.helper;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class JDBC {
+public class DBConnection {
     // Example code
     private static final String protocol = "jdbc";
     private static final String vendor = ":mysql:";

@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c195task1.view.MainScreen">
+<AnchorPane prefHeight="800.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c195task1.controller.MainScreen">
    <children>
       <Pane layoutX="14.0" layoutY="382.0" prefHeight="403.0" prefWidth="1407.0" style="-fx-border-color: black;">
          <children>
@@ -13,7 +13,7 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <TableView layoutX="15.0" layoutY="55.0" prefHeight="295.0" prefWidth="1379.0">
+            <TableView fx:id="tblAppointments" layoutX="15.0" layoutY="55.0" prefHeight="295.0" prefWidth="1379.0">
               <columns>
                 <TableColumn prefWidth="75.0" text="Title" />
                 <TableColumn prefWidth="75.0" text="Description" />
@@ -50,10 +50,10 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <TableView layoutX="15.0" layoutY="55.0" prefHeight="247.0" prefWidth="1379.0">
+            <TableView fx:id="tblCustomers" layoutX="15.0" layoutY="55.0" prefHeight="247.0" prefWidth="1379.0">
                <columns>
-                  <TableColumn prefWidth="75.0" text="ID" />
-                  <TableColumn prefWidth="75.0" text="Name" />
+                  <TableColumn fx:id="colCustId" prefWidth="75.0" text="ID" />
+                  <TableColumn fx:id="colCustName" prefWidth="75.0" text="Name" />
                   <TableColumn prefWidth="75.0" text="Address" />
                   <TableColumn prefWidth="75.0" text="PostCode" />
                   <TableColumn prefWidth="75.0" text="Phone" />
