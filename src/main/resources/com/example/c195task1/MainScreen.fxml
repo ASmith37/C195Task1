@@ -15,10 +15,15 @@
             </Label>
             <TableView fx:id="tblAppointments" layoutX="15.0" layoutY="55.0" prefHeight="295.0" prefWidth="1379.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Title" />
-                <TableColumn prefWidth="75.0" text="Description" />
-                 <TableColumn prefWidth="75.0" text="Location" />
-                 <TableColumn prefWidth="75.0" text="Contact" />
+                <TableColumn fx:id="colApptId" prefWidth="100.0" text="ID" />
+                <TableColumn fx:id="colApptTitle" prefWidth="100.0" text="Title" />
+                <TableColumn fx:id="colApptDesc" prefWidth="100.0" text="Description" />
+                <TableColumn fx:id="colApptLocation" prefWidth="100.0" text="Location" />
+                <TableColumn fx:id="colApptType" prefWidth="100.0" text="Contact" />
+                <TableColumn fx:id="colApptStart" prefWidth="150.0" text="Start Date/Time" />
+                <TableColumn fx:id="colApptEnd" prefWidth="150.0" text="End Date/Time" />
+                <TableColumn fx:id="colApptCustId" prefWidth="100.0" text="Customer ID" />
+                <TableColumn fx:id="colApptUserId" prefWidth="100.0" text="User ID" />
               </columns>
             </TableView>
             <Button fx:id="btnDeleteAppt" layoutX="1343.0" layoutY="364.0" mnemonicParsing="false" onAction="#OnBtnDeleteAppt" text="Delete" />
@@ -52,13 +57,13 @@
             </Label>
             <TableView fx:id="tblCustomers" layoutX="15.0" layoutY="55.0" prefHeight="247.0" prefWidth="1379.0">
                <columns>
-                  <TableColumn fx:id="colCustId" prefWidth="75.0" text="ID" />
-                  <TableColumn fx:id="colCustName" prefWidth="75.0" text="Name" />
-                  <TableColumn prefWidth="75.0" text="Address" />
-                  <TableColumn prefWidth="75.0" text="PostCode" />
-                  <TableColumn prefWidth="75.0" text="Phone" />
-                  <TableColumn prefWidth="75.0" text="Country" />
-                  <TableColumn prefWidth="75.0" text="Division" />
+                  <TableColumn fx:id="colCustId" prefWidth="125.0" text="ID" />
+                  <TableColumn fx:id="colCustName" prefWidth="125.0" text="Name" />
+                  <TableColumn fx:id="colCustAddress" prefWidth="125.0" text="Address" />
+                  <TableColumn fx:id="colCustPostCode" prefWidth="125.0" text="PostCode" />
+                  <TableColumn fx:id="colCustPhone" prefWidth="125.0" text="Phone" />
+                  <TableColumn fx:id="colCustCountry" prefWidth="125.0" text="Country" />
+                  <TableColumn fx:id="colCustDivision" prefWidth="125.0" text="Division" />
                </columns>
             </TableView>
             <Button fx:id="btnDeleteCust" layoutX="1342.0" layoutY="314.0" mnemonicParsing="false" onAction="#onBtnDeleteCust" text="Delete" />

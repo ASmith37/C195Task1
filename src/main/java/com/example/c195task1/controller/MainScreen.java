@@ -1,5 +1,7 @@
 package com.example.c195task1.controller;
 
+import com.example.c195task1.model.Appointment;
+import com.example.c195task1.model.AppointmentDAO;
 import com.example.c195task1.model.Customer;
 import com.example.c195task1.model.CustomerDAO;
 import javafx.collections.ObservableList;
@@ -32,7 +34,22 @@ public class MainScreen implements Initializable {
     public TableView tblAppointments;
     public TableColumn colCustId;
     public TableColumn colCustName;
+    public TableColumn colCustAddress;
+    public TableColumn colCustPostCode;
+    public TableColumn colCustPhone;
+    public TableColumn colCustCountry;
+    public TableColumn colCustDivision;
+    public TableColumn colApptId;
+    public TableColumn colApptTitle;
+    public TableColumn colApptDesc;
+    public TableColumn colApptLocation;
+    public TableColumn colApptType;
+    public TableColumn colApptStart;
+    public TableColumn colApptEnd;
+    public TableColumn colApptCustId;
+    public TableColumn colApptUserId;
     private ObservableList<Customer> allCustomers;
+    private ObservableList<Appointment> allAppointments;
 
     public void onRdApptWeek(ActionEvent actionEvent) {
     }
@@ -77,6 +94,10 @@ public class MainScreen implements Initializable {
             tblCustomers.setItems(allCustomers);
             colCustId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
             colCustName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+
+            allAppointments = AppointmentDAO.getAllAppointments();
+            tblAppointments.setItems(allAppointments);
+            colApptId.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
