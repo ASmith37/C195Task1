@@ -8,10 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -53,6 +50,13 @@ public class CustomerAddUpdate implements Initializable {
         }
         cmbCountry.setItems(allCountries);
     }
+    private void showMessage(String message) {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        error.setTitle("Error");
+        error.setHeaderText("Invalid Data");
+        error.setContentText(message);
+        error.showAndWait();
+    }
     public void onBtnCustSave(ActionEvent actionEvent) throws IOException, SQLException {
         if (!validateData()) {
             return;
@@ -75,11 +79,13 @@ public class CustomerAddUpdate implements Initializable {
     }
     public void setModeAdd() throws SQLException {
         isUpdateMode = false;
+        lblAddUpdateCust.setText("Add Customer");
         txtCustId.setText(String.valueOf(CustomerDAO.generateCustomerId()));
         // cmbCountry.setPromptText("Select a country");
     }
     public void setModeUpdate(Customer customer) {
         isUpdateMode = true;
+        lblAddUpdateCust.setText("Modify Customer");
         txtCustId.setText(String.valueOf(customer.getId()));
         txtCustName.setText(customer.getName());
         txtCustAddress.setText(customer.getAddress());

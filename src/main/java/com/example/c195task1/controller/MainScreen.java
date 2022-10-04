@@ -10,16 +10,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.chart.StackedBarChart;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MainScreen implements Initializable {
@@ -56,6 +55,14 @@ public class MainScreen implements Initializable {
     public TableColumn colApptContact;
     private ObservableList<Customer> allCustomers;
     private ObservableList<Appointment> allAppointments;
+    private boolean showConfirmationAlert(String message) {
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Please confirm");
+        confirmAlert.setHeaderText("Please confirm");
+        confirmAlert.setContentText(message);
+        Optional<ButtonType> result = confirmAlert.showAndWait();
+        return result.get() == ButtonType.OK;
+    }
 
     public void onRdApptWeek(ActionEvent actionEvent) {
     }
@@ -75,10 +82,33 @@ public class MainScreen implements Initializable {
     public void onBtnRptOther(ActionEvent actionEvent) {
     }
 
-    public void onBtnAddAppt(ActionEvent actionEvent) {
+    public void onBtnAddAppt(ActionEvent actionEvent) throws IOException, SQLException {
+        Stage stage = (Stage) btnAddAppt.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/c195task1/AppointmentAddUpdate.fxml")); // javafx.fxml.LoadException
+        Parent root = loader.load();
+
+        AppointmentAddUpdate appointmentScreen = loader.getController();
+        appointmentScreen.setModeAdd();
+
+        stage.setTitle("Add Appointment");
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
-    public void onBtnEditAppt(ActionEvent actionEvent) {
+    public void onBtnEditAppt(ActionEvent actionEvent) throws IOException {
+        Appointment appointment = (Appointment) tblAppointments.getSelectionModel().getSelectedItem();
+        if (appointment != null) {
+            Stage stage = (Stage) btnAddAppt.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/c195task1/AppointmentAddUpdate.fxml")); // javafx.fxml.LoadException
+            Parent root = loader.load();
+
+            AppointmentAddUpdate appointmentScreen = loader.getController();
+            appointmentScreen.setModeModify(appointment);
+
+            stage.setTitle("Edit Appointment");
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
     }
 
     public void OnBtnDeleteAppt(ActionEvent actionEvent) {
@@ -113,37 +143,43 @@ public class MainScreen implements Initializable {
         }
     }
 
-    public void onBtnDeleteCust(ActionEvent actionEvent) {
+    public void onBtnDeleteCust(ActionEvent actionEvent) throws SQLException {
+        if (showConfirmationAlert("Are you sure you want to delete this customer?")) {
+            CustomerDAO.deleteCustomer((Customer) tblCustomers.getSelectionModel().getSelectedItem());
+            refreshCustomers();
+        }
     }
-
+    private void refreshCustomers() throws SQLException {
+        allCustomers = CustomerDAO.getAllCustomers();
+        tblCustomers.setItems(allCustomers);
+        colCustId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colCustName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colCustAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colCustPostCode.setCellValueFactory(new PropertyValueFactory<>("postCode"));
+        colCustPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        colCustDivision.setCellValueFactory(new PropertyValueFactory<>("division"));
+        colCustCountry.setCellValueFactory(new PropertyValueFactory<>("country"));
+    }
+    private void refreshAppointments() throws SQLException {
+        allAppointments = AppointmentDAO.getAllAppointments();
+        tblAppointments.setItems(allAppointments);
+        colApptId.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        colApptTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        colApptDesc.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colApptLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
+        colApptLocation.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        colApptType.setCellValueFactory(new PropertyValueFactory<>("type"));
+        colApptStart.setCellValueFactory(new PropertyValueFactory<>("start"));
+        colApptEnd.setCellValueFactory(new PropertyValueFactory<>("end"));
+        colApptCustId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        colApptUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        colApptContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-
-            allCustomers = CustomerDAO.getAllCustomers();
-            tblCustomers.setItems(allCustomers);
-            colCustId.setCellValueFactory(new PropertyValueFactory<>("id"));
-            colCustName.setCellValueFactory(new PropertyValueFactory<>("name"));
-            colCustAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
-            colCustPostCode.setCellValueFactory(new PropertyValueFactory<>("postCode"));
-            colCustPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
-            colCustDivision.setCellValueFactory(new PropertyValueFactory<>("division"));
-            colCustCountry.setCellValueFactory(new PropertyValueFactory<>("country"));
-
-            allAppointments = AppointmentDAO.getAllAppointments();
-            tblAppointments.setItems(allAppointments);
-            colApptId.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
-            colApptTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-            colApptDesc.setCellValueFactory(new PropertyValueFactory<>("description"));
-            colApptLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
-            colApptLocation.setCellValueFactory(new PropertyValueFactory<>("contact"));
-            colApptType.setCellValueFactory(new PropertyValueFactory<>("type"));
-            colApptStart.setCellValueFactory(new PropertyValueFactory<>("start"));
-            colApptEnd.setCellValueFactory(new PropertyValueFactory<>("end"));
-            colApptCustId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
-            colApptUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
-            colApptContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
-
+            refreshCustomers();
+            refreshAppointments();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

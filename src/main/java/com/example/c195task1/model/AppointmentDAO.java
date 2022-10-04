@@ -43,4 +43,22 @@ public class AppointmentDAO {
 
         return allAppointments;
     }
+    public static int generateAppointmentId() throws SQLException {
+        DBConnection.openConnection();
+        String sql1 = "SELECT Count(*) FROM appointments;";
+        Statement st1 = DBConnection.connection.createStatement();
+        ResultSet rs1 = st1.executeQuery(sql1);
+        rs1.next();
+        if (rs1.getInt(1) == 0) {
+            DBConnection.closeConnection();
+            return 1;
+        }
+        String sql2 = "SELECT MAX(Appointment_ID) FROM appointments;";
+        Statement st2 = DBConnection.connection.createStatement();
+        ResultSet rs2 = st2.executeQuery(sql2);
+        rs2.next();
+        int result = rs2.getInt(1) + 1;
+        DBConnection.closeConnection();
+        return result;
+    }
 }
