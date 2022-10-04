@@ -6,13 +6,18 @@ import com.example.c195task1.model.Customer;
 import com.example.c195task1.model.CustomerDAO;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -79,10 +84,33 @@ public class MainScreen implements Initializable {
     public void OnBtnDeleteAppt(ActionEvent actionEvent) {
     }
 
-    public void onBtnAddCust(ActionEvent actionEvent) {
+    public void onBtnAddCust(ActionEvent actionEvent) throws IOException, SQLException {
+        Stage stage = (Stage) btnAddCust.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/c195task1/CustomerAddUpdate.fxml")); // javafx.fxml.LoadException
+        Parent root = loader.load();
+
+        CustomerAddUpdate customerScreen = loader.getController();
+        customerScreen.setModeAdd();
+
+        stage.setTitle("Add Customer");
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
-    public void onBtnEditCust(ActionEvent actionEvent) {
+    public void onBtnEditCust(ActionEvent actionEvent) throws IOException {
+        Customer customer = (Customer) tblCustomers.getSelectionModel().getSelectedItem();
+        if (customer != null) {
+            Stage stage = (Stage) btnAddCust.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/c195task1/CustomerAddUpdate.fxml")); // javafx.fxml.LoadException
+            Parent root = loader.load();
+
+            CustomerAddUpdate customerScreen = loader.getController();
+            customerScreen.setModeUpdate(customer);
+
+            stage.setTitle("Edit Customer");
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
     }
 
     public void onBtnDeleteCust(ActionEvent actionEvent) {
@@ -91,6 +119,7 @@ public class MainScreen implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
+
             allCustomers = CustomerDAO.getAllCustomers();
             tblCustomers.setItems(allCustomers);
             colCustId.setCellValueFactory(new PropertyValueFactory<>("id"));

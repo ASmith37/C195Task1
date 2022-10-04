@@ -26,10 +26,10 @@
       <TextField fx:id="txtCustPhone" layoutX="250.0" layoutY="314.0" />
 
       <Label fx:id="lblCustCountry" layoutX="100.0" layoutY="368.0" text="Country:" />
-      <ComboBox layoutX="250.0" layoutY="364.0" prefWidth="150.0" />
+      <ComboBox fx:id="cmbCountry" layoutX="250.0" layoutY="364.0" onAction="#onCmbCountry" prefWidth="150.0" promptText="Select a country" />
 
       <Label fx:id="lblCustDivision" layoutX="100.0" layoutY="418.0" text="Division:" />
-      <ComboBox layoutX="250.0" layoutY="414.0" prefWidth="150.0" />
+      <ComboBox fx:id="cmbDivision" layoutX="250.0" layoutY="414.0" prefWidth="150.0" promptText="Select a division" />
       <Button fx:id="btnCustSave" layoutX="620.0" layoutY="730.0" mnemonicParsing="false" onAction="#onBtnCustSave" text="Save" />
       <Button fx:id="btnCustCancel" layoutX="698.0" layoutY="730.0" mnemonicParsing="false" onAction="#onBtnCustCancel" text="Cancel" />
 
