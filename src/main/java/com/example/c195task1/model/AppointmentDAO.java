@@ -1,12 +1,14 @@
 package com.example.c195task1.model;
 
 import com.example.c195task1.helper.DBConnection;
+import com.example.c195task1.helper.UserData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -73,11 +75,46 @@ public class AppointmentDAO {
     public static void addUpdateAppointment(Appointment appointment, boolean isAnUpdate) {
         String sql;
         if (isAnUpdate) {
-            sql = "";
+            sql = String.format("UPDATE appointments\n" +
+                            "SET `Title` = '%s', `Description` = '%s', Location = '%s', `Type` = '%s', `Start` = %s, `End` = %s, Last_Update = NOW(), Last_Updated_By = '%s', Customer_ID = %s, User_ID = %s, Contact_ID = %s\n" +
+                            "WHERE Appointment_ID = 3",
+                    appointment.getTitle(),
+                    appointment.getDescription(),
+                    appointment.getLocation(),
+                    appointment.getType(),
+                    Timestamp.valueOf(appointment.getStart()),
+                    Timestamp.valueOf(appointment.getEnd()),
+                    UserData.username,
+                    appointment.getCustomerId(),
+                    appointment.getUserId(),
+                    appointment.getContactId()
+                    );
         }
         else {
-            sql = "";
+            sql = String.format("INSERT INTO appointments (Appointment_ID, `Title`, `Description`, Location, `Type`, `Start`, `End`, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID)\n" +
+                    "VALUES (%d, '%s', '%s', '%s', '%s', %s, %s, NOW(), '%s', NOW(), '%s', %d, %d, %d)",
+                    appointment.getAppointmentId(),
+                    appointment.getTitle(),
+                    appointment.getDescription(),
+                    appointment.getLocation(),
+                    appointment.getType(),
+                    Timestamp.valueOf(appointment.getStart()),
+                    Timestamp.valueOf(appointment.getEnd()),
+                    UserData.username,
+                    UserData.username,
+                    appointment.getCustomerId(),
+                    appointment.getUserId(),
+                    appointment.getContactId()
+                    );
         }
         System.out.println(sql);
+    }
+    public static void deleteAppointment(Appointment appointment) throws SQLException {
+        String sql = "DELETE FROM appointments\n" +
+                "WHERE Appointment_ID = " + String.valueOf(appointment.getAppointmentId());
+        DBConnection.openConnection();
+        Statement statement = DBConnection.connection.createStatement();
+        statement.executeUpdate(sql);
+        DBConnection.closeConnection();
     }
 }

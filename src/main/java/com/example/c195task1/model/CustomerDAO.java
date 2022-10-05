@@ -87,7 +87,6 @@ public class CustomerDAO {
             return false;
         }
         String sql2 = String.format("DELETE FROM customers WHERE Customer_ID = %d", customer.getId());
-        DBConnection.openConnection();
         Statement st2 = DBConnection.connection.createStatement();
         st2.executeUpdate(sql2);
         DBConnection.closeConnection();
