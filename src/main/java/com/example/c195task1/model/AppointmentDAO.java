@@ -70,4 +70,14 @@ public class AppointmentDAO {
         DBConnection.closeConnection();
         return result;
     }
+    public static void addUpdateAppointment(Appointment appointment, boolean isAnUpdate) {
+        String sql;
+        if (isAnUpdate) {
+            sql = "";
+        }
+        else {
+            sql = "";
+        }
+        System.out.println(sql);
+    }
 }

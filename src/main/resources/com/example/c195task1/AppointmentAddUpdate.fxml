@@ -24,7 +24,6 @@
         <TextField fx:id="txtApptLocation" layoutX="250.0" layoutY="264.0" />
 
         <Label fx:id="lblApptContact" layoutX="100.0" layoutY="318.0" text="Contact:" />
-        <TextField fx:id="txtApptContact" layoutX="250.0" layoutY="314.0" />
 
         <Label fx:id="lblApptType" layoutX="100.0" layoutY="368.0" text="Type:" />
         <TextField fx:id="txtApptType" layoutX="250.0" layoutY="364.0" />
@@ -45,6 +44,7 @@
       <Label layoutX="417.0" layoutY="468.0" text="e.g. 2022-12-31 1:30 p.m." />
       <Label layoutX="417.0" layoutY="418.0" text="format: yyyy-MM-dd h:mm a" />
       <ComboBox fx:id="cmbApptCustomerId" layoutX="250.0" layoutY="514.0" prefWidth="150.0" promptText="Select an ID / customer" />
+      <ComboBox fx:id="cmbApptContact" layoutX="250.0" layoutY="314.0" prefWidth="150.0" promptText="Select a contact" />
 
 
     </children>

@@ -1,10 +1,7 @@
 package com.example.c195task1.controller;
 
 import com.example.c195task1.helper.UserData;
-import com.example.c195task1.model.Appointment;
-import com.example.c195task1.model.AppointmentDAO;
-import com.example.c195task1.model.Customer;
-import com.example.c195task1.model.CustomerDAO;
+import com.example.c195task1.model.*;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -40,7 +37,6 @@ public class AppointmentAddUpdate implements Initializable {
     public TextField txtApptTitle;
     public TextField txtApptDescription;
     public TextField txtApptLocation;
-    public TextField txtApptContact;
     public TextField txtApptType;
     public TextField txtApptStartDateTime;
     public TextField txtApptEndDateTime;
@@ -48,13 +44,17 @@ public class AppointmentAddUpdate implements Initializable {
     public Button btnApptSave;
     public Button btnApptCancel;
     public ComboBox cmbApptCustomerId;
+    public ComboBox cmbApptContact;
     private boolean isUpdateMode;
     private ObservableList<Customer> allCustomers;
+    private ObservableList<Contact> allContacts;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             allCustomers = CustomerDAO.getAllCustomers();
             cmbApptCustomerId.setItems(allCustomers);
+            allContacts = ContactDAO.getAllContacts();
+            cmbApptContact.setItems(allContacts);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -62,6 +62,8 @@ public class AppointmentAddUpdate implements Initializable {
 
     public void onBtnApptSave(ActionEvent actionEvent) throws IOException {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd h:mm a");
+        Customer customer = (Customer) cmbApptCustomerId.getSelectionModel().getSelectedItem();
+        Contact contact = (Contact) cmbApptContact.getSelectionModel().getSelectedItem();
         Appointment appointment = new Appointment(
                 Integer.parseInt(txtApptId.getText()),
                 txtApptTitle.getText(),
@@ -74,12 +76,11 @@ public class AppointmentAddUpdate implements Initializable {
                 UserData.username,
                 LocalDateTime.now(),
                 UserData.username,
-                ((Customer) cmbApptCustomerId.getSelectionModel().getSelectedItem()).getId(),
-                txtApptUserId.getText(),
-
-        )
-
-
+                customer.getId(),
+                UserData.userId,
+                contact.getId(),
+                contact.getName()
+        );
     }
 
     public void onBtnApptCancel(ActionEvent actionEvent) throws IOException {
@@ -91,7 +92,6 @@ public class AppointmentAddUpdate implements Initializable {
                 || txtApptTitle.getText().isEmpty()
                 || txtApptDescription.getText().isEmpty()
                 || txtApptLocation.getText().isEmpty()
-                || txtApptContact.getText().isEmpty()
                 || txtApptType.getText().isEmpty()
                 || txtApptStartDateTime.getText().isEmpty()
                 || txtApptEndDateTime.getText().isEmpty()
@@ -115,7 +115,6 @@ public class AppointmentAddUpdate implements Initializable {
         txtApptId.setText(String.valueOf(appointment.getAppointmentId()));
         txtApptTitle.setText(appointment.getTitle());
         txtApptDescription.setText(appointment.getDescription());
-        txtApptContact.setText(appointment.getContact());
         txtApptLocation.setText(appointment.getLocation());
         txtApptType.setText(appointment.getType());
         txtApptStartDateTime.setText(appointment.getStart().format(dtf));
@@ -128,6 +127,12 @@ public class AppointmentAddUpdate implements Initializable {
             }
         }
         cmbApptCustomerId.setDisable(true);
+        for (Contact c: allContacts) {
+            if (c.getId() == appointment.getContactId()) {
+                cmbApptContact.getSelectionModel().select(c);
+                break;
+            }
+        }
 
     }
     private void backToMainScreen() throws IOException {
