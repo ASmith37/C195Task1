@@ -36,13 +36,15 @@
         <TextField fx:id="txtApptEndDateTime" layoutX="250.0" layoutY="464.0" />
 
         <Label fx:id="lblApptCustId" layoutX="100.0" layoutY="518.0" text="Customer ID:" />
-        <TextField fx:id="txtApptCustId" layoutX="250.0" layoutY="514.0" />
 
         <Label fx:id="lblApptUserId" layoutX="100.0" layoutY="568.0" text="User ID:" />
-        <TextField fx:id="txtApptUserId" layoutX="250.0" layoutY="564.0" />
+        <TextField fx:id="txtApptUserId" disable="true" layoutX="250.0" layoutY="564.0" />
 
         <Button fx:id="btnApptSave" layoutX="620.0" layoutY="730.0" mnemonicParsing="false" onAction="#onBtnApptSave" text="Save" />
         <Button fx:id="btnApptCancel" layoutX="698.0" layoutY="730.0" mnemonicParsing="false" onAction="#onBtnApptCancel" text="Cancel" />
+      <Label layoutX="417.0" layoutY="468.0" text="e.g. 2022-12-31 1:30 p.m." />
+      <Label layoutX="417.0" layoutY="418.0" text="format: yyyy-MM-dd h:mm a" />
+      <ComboBox fx:id="cmbApptCustomerId" layoutX="250.0" layoutY="514.0" prefWidth="150.0" promptText="Select an ID / customer" />
 
 
     </children>

@@ -8,18 +8,31 @@ import javax.xml.transform.Result;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO {
-    public static boolean checkCredentials(String username, String password) throws SQLException {
-        String sql = "SELECT COUNT(*) FROM users WHERE User_Name = '" + username
-                   + "' AND Password = '" + password + "';";
+    public static User checkCredentials(String username, String password)throws SQLException {
+        String sql = "SELECT User_ID, User_Name\n" +
+                     "FROM users\n" +
+                     "WHERE User_Name = '" + username + "'\n" +
+                     "AND Password = '" + password + "';";
         DBConnection.openConnection();
         Statement s = DBConnection.connection.createStatement();
         ResultSet r;
         r = s.executeQuery(sql);
-        r.next();
-        boolean result = r.getInt(1) > 0; // Apparently columns start at 1
-        DBConnection.closeConnection();
-        return result;
+        List<User> usersFound = new ArrayList<User>();
+        while (r.next()) {
+            usersFound.add(new User(
+                    r.getInt(1),
+                    r.getString(2)
+            ));
+        }
+        if (usersFound.size() > 0) {
+            return usersFound.get(0);
+        }
+        else {
+            return null;
+        }
     }
 }

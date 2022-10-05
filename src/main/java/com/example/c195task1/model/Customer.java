@@ -12,6 +12,10 @@ public class Customer {
     String division;
     int countryId;
     String country;
+    @Override
+    public String toString() {
+        return String.format("%d - %s", this.id, this.name);
+    }
 
     public Customer(int id, String name, String address, String postCode, String phone, int divisionId, String division, int countryId, String country) {
         this.id = id;

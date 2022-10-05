@@ -19,12 +19,12 @@
                 <TableColumn fx:id="colApptTitle" prefWidth="100.0" text="Title" />
                 <TableColumn fx:id="colApptDesc" prefWidth="100.0" text="Description" />
                 <TableColumn fx:id="colApptLocation" prefWidth="100.0" text="Location" />
-                <TableColumn fx:id="colApptType" prefWidth="100.0" text="Contact" />
+                <TableColumn fx:id="colApptContact" prefWidth="100.0" text="Contact" />
+                <TableColumn fx:id="colApptType" prefWidth="100.0" text="Type" />
                 <TableColumn fx:id="colApptStart" prefWidth="150.0" text="Start Date/Time" />
                 <TableColumn fx:id="colApptEnd" prefWidth="150.0" text="End Date/Time" />
                 <TableColumn fx:id="colApptCustId" prefWidth="100.0" text="Customer ID" />
                 <TableColumn fx:id="colApptUserId" prefWidth="100.0" text="User ID" />
-                <TableColumn fx:id="colApptContact" prefWidth="100.0" text="Contact" />
               </columns>
             </TableView>
             <Button fx:id="btnDeleteAppt" layoutX="1343.0" layoutY="364.0" mnemonicParsing="false" onAction="#OnBtnDeleteAppt" text="Delete" />

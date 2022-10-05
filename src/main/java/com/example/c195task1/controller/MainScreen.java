@@ -5,6 +5,7 @@ import com.example.c195task1.model.AppointmentDAO;
 import com.example.c195task1.model.Customer;
 import com.example.c195task1.model.CustomerDAO;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,6 +19,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -54,7 +57,7 @@ public class MainScreen implements Initializable {
     public TableColumn colApptUserId;
     public TableColumn colApptContact;
     private ObservableList<Customer> allCustomers;
-    private ObservableList<Appointment> allAppointments;
+    private FilteredList<Appointment> allAppointments;
     private boolean showConfirmationAlert(String message) {
         Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
         confirmAlert.setTitle("Please confirm");
@@ -65,12 +68,23 @@ public class MainScreen implements Initializable {
     }
 
     public void onRdApptWeek(ActionEvent actionEvent) {
+        LocalDateTime windowStart = LocalDateTime.of(LocalDateTime.now().toLocalDate(), LocalTime.of(0, 0));
+        LocalDateTime windowEnd = windowStart.plusWeeks(1);
+        allAppointments.setPredicate(appt -> {
+            return appt.getStart().isAfter(windowStart) && appt.getEnd().isBefore(windowEnd);
+        });
     }
 
     public void onRdApptMonth(ActionEvent actionEvent) {
+        LocalDateTime windowStart = LocalDateTime.of(LocalDateTime.now().toLocalDate(), LocalTime.of(0, 0));
+        LocalDateTime windowEnd = windowStart.plusMonths(1);
+        allAppointments.setPredicate(appt -> {
+            return appt.getStart().isAfter(windowStart) && appt.getEnd().isBefore(windowEnd);
+        });
     }
 
     public void onRdApptAll(ActionEvent actionEvent) {
+        allAppointments.setPredicate(appt -> {return true;});
     }
 
     public void onBtnRptTotalAppt(ActionEvent actionEvent) {
@@ -145,8 +159,13 @@ public class MainScreen implements Initializable {
 
     public void onBtnDeleteCust(ActionEvent actionEvent) throws SQLException {
         if (showConfirmationAlert("Are you sure you want to delete this customer?")) {
-            CustomerDAO.deleteCustomer((Customer) tblCustomers.getSelectionModel().getSelectedItem());
-            refreshCustomers();
+            boolean result = CustomerDAO.deleteCustomer((Customer) tblCustomers.getSelectionModel().getSelectedItem());
+            if (!result) {
+                showMessage("Delete failed. You must delete all appointments first.");
+            }
+            else {
+                refreshCustomers();
+            }
         }
     }
     private void refreshCustomers() throws SQLException {
@@ -161,19 +180,18 @@ public class MainScreen implements Initializable {
         colCustCountry.setCellValueFactory(new PropertyValueFactory<>("country"));
     }
     private void refreshAppointments() throws SQLException {
-        allAppointments = AppointmentDAO.getAllAppointments();
+        allAppointments = new FilteredList<>(AppointmentDAO.getAllAppointments());
         tblAppointments.setItems(allAppointments);
         colApptId.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
         colApptTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colApptDesc.setCellValueFactory(new PropertyValueFactory<>("description"));
         colApptLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
-        colApptLocation.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        colApptContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
         colApptType.setCellValueFactory(new PropertyValueFactory<>("type"));
         colApptStart.setCellValueFactory(new PropertyValueFactory<>("start"));
         colApptEnd.setCellValueFactory(new PropertyValueFactory<>("end"));
         colApptCustId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         colApptUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
-        colApptContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -183,5 +201,14 @@ public class MainScreen implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        rdApptAll.setSelected(true);
+        onRdApptAll(null);
+    }
+    private void showMessage(String message) {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        error.setTitle("Error");
+        error.setHeaderText("Error");
+        error.setContentText(message);
+        error.showAndWait();
     }
 }

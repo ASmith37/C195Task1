@@ -1,6 +1,7 @@
 package com.example.c195task1.controller;
 
 import com.example.c195task1.helper.UserData;
+import com.example.c195task1.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -38,9 +39,10 @@ public class LogIn implements Initializable {
     }
 
     public void onBtnLogIn(ActionEvent actionEvent) throws SQLException, IOException {
-        boolean validLogin = UserDAO.checkCredentials(txtUsername.getText(), txtPassword.getText());
-        if (validLogin) {
-            UserData.username = txtUsername.getText();
+        User user = UserDAO.checkCredentials(txtUsername.getText(), txtPassword.getText());
+        if (user != null) {
+            UserData.username = user.getUserName();
+            UserData.userId = user.getUserId();
             // load next screen
             Stage stage = (Stage) btnLogIn.getScene().getWindow();
             // FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml")); // fails

@@ -76,12 +76,21 @@ public class CustomerDAO {
         st1.executeUpdate(sql);
         DBConnection.closeConnection();
     }
-    public static void deleteCustomer(Customer customer) throws SQLException {
-        String sql = String.format("DELETE FROM customers WHERE Customer_ID = %d", customer.getId());
-        System.out.println(sql);
+    public static boolean deleteCustomer(Customer customer) throws SQLException {
+        String sql1 = String.format("SELECT COUNT(*) FROM appointments WHERE Customer_ID = %d", customer.getId());
         DBConnection.openConnection();
         Statement st1 = DBConnection.connection.createStatement();
-        st1.executeUpdate(sql);
+        ResultSet r1 = st1.executeQuery(sql1);
+        r1.next();
+        if (r1.getInt(1) > 0) {
+            DBConnection.closeConnection();
+            return false;
+        }
+        String sql2 = String.format("DELETE FROM customers WHERE Customer_ID = %d", customer.getId());
+        DBConnection.openConnection();
+        Statement st2 = DBConnection.connection.createStatement();
+        st2.executeUpdate(sql2);
         DBConnection.closeConnection();
+        return true;
     }
 }
