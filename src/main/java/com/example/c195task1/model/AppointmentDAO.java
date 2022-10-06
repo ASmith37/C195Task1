@@ -5,10 +5,7 @@ import com.example.c195task1.helper.UserData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -72,42 +69,65 @@ public class AppointmentDAO {
         DBConnection.closeConnection();
         return result;
     }
-    public static void addUpdateAppointment(Appointment appointment, boolean isAnUpdate) {
-        String sql;
+    public static boolean isThereOverlappingAppointment(Appointment appointment) throws SQLException {
+        DBConnection.openConnection();
+        PreparedStatement ps = DBConnection.connection.prepareStatement(
+                "SELECT COUNT(*)\n" +
+                        "FROM appointments\n" +
+                        "WHERE Customer_ID = ?\n" +
+                        "AND Appointment_ID != ?\n" +
+                        "AND Start <= ?\n" +
+                        "AND End >= ?"
+        );
+        ps.setInt(1, appointment.getCustomerId());
+        ps.setInt(2, appointment.getAppointmentId());
+        ps.setTimestamp(3, Timestamp.valueOf(appointment.getEnd()));
+        ps.setTimestamp(4, Timestamp.valueOf(appointment.getStart()));
+        ResultSet r = ps.executeQuery();
+        r.next();
+        int count = r.getInt(1);
+        DBConnection.closeConnection();
+        return count > 0;
+    }
+    public static void addUpdateAppointment(Appointment appointment, boolean isAnUpdate) throws SQLException {
+        PreparedStatement ps;
+        DBConnection.openConnection();
         if (isAnUpdate) {
-            sql = String.format("UPDATE appointments\n" +
-                            "SET `Title` = '%s', `Description` = '%s', Location = '%s', `Type` = '%s', `Start` = %s, `End` = %s, Last_Update = NOW(), Last_Updated_By = '%s', Customer_ID = %s, User_ID = %s, Contact_ID = %s\n" +
-                            "WHERE Appointment_ID = 3",
-                    appointment.getTitle(),
-                    appointment.getDescription(),
-                    appointment.getLocation(),
-                    appointment.getType(),
-                    Timestamp.valueOf(appointment.getStart()),
-                    Timestamp.valueOf(appointment.getEnd()),
-                    UserData.username,
-                    appointment.getCustomerId(),
-                    appointment.getUserId(),
-                    appointment.getContactId()
-                    );
+            ps = DBConnection.connection.prepareStatement(
+                    "UPDATE appointments\n" +
+                    "SET `Title` = ?, `Description` = ?, Location = ?, `Type` = ?, `Start` = ?, `End` = ?, Last_Update = NOW(), Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ?\n" +
+                    "WHERE Appointment_ID = ?");
+            ps.setString(1, appointment.getTitle());
+            ps.setString(2, appointment.getDescription());
+            ps.setString(3, appointment.getLocation());
+            ps.setString(4, appointment.getType());
+            ps.setTimestamp(5, Timestamp.valueOf(appointment.getStart()));
+            ps.setTimestamp(6, Timestamp.valueOf(appointment.getEnd()));
+            ps.setString(7, UserData.username);
+            ps.setInt(8, appointment.getCustomerId());
+            ps.setInt(9, appointment.getUserId());
+            ps.setInt(10, appointment.getContactId());
+            ps.setInt(11, appointment.getAppointmentId());
         }
         else {
-            sql = String.format("INSERT INTO appointments (Appointment_ID, `Title`, `Description`, Location, `Type`, `Start`, `End`, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID)\n" +
-                    "VALUES (%d, '%s', '%s', '%s', '%s', %s, %s, NOW(), '%s', NOW(), '%s', %d, %d, %d)",
-                    appointment.getAppointmentId(),
-                    appointment.getTitle(),
-                    appointment.getDescription(),
-                    appointment.getLocation(),
-                    appointment.getType(),
-                    Timestamp.valueOf(appointment.getStart()),
-                    Timestamp.valueOf(appointment.getEnd()),
-                    UserData.username,
-                    UserData.username,
-                    appointment.getCustomerId(),
-                    appointment.getUserId(),
-                    appointment.getContactId()
-                    );
+            ps = DBConnection.connection.prepareStatement(
+                    "INSERT INTO appointments (Appointment_ID, `Title`, `Description`, Location, `Type`, `Start`, `End`, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID)\n" +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?, NOW(), ?, ?, ?, ?)");
+            ps.setInt(1, appointment.getAppointmentId());
+            ps.setString(2, appointment.getTitle());
+            ps.setString(3, appointment.getDescription());
+            ps.setString(4, appointment.getLocation());
+            ps.setString(5, appointment.getType());
+            ps.setTimestamp(6, Timestamp.valueOf(appointment.getStart()));
+            ps.setTimestamp(7, Timestamp.valueOf(appointment.getEnd()));
+            ps.setString(8, UserData.username);
+            ps.setString(9, UserData.username);
+            ps.setInt(10, appointment.getCustomerId());
+            ps.setInt(11, appointment.getUserId());
+            ps.setInt(12, appointment.getContactId());
         }
-        System.out.println(sql);
+        ps.executeUpdate();
+        DBConnection.closeConnection();
     }
     public static void deleteAppointment(Appointment appointment) throws SQLException {
         String sql = "DELETE FROM appointments\n" +

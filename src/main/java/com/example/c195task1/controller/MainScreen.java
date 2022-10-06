@@ -125,7 +125,15 @@ public class MainScreen implements Initializable {
         }
     }
 
-    public void OnBtnDeleteAppt(ActionEvent actionEvent) {
+    public void OnBtnDeleteAppt(ActionEvent actionEvent) throws SQLException {
+        Appointment appointment = (Appointment) tblAppointments.getSelectionModel().getSelectedItem();
+        if (appointment == null) {
+            return;
+        }
+        if (showConfirmationAlert("Are you sure you want to delete this appointment?")) {
+            AppointmentDAO.deleteAppointment(appointment);
+        }
+        refreshAppointments();
     }
 
     public void onBtnAddCust(ActionEvent actionEvent) throws IOException, SQLException {
@@ -158,6 +166,10 @@ public class MainScreen implements Initializable {
     }
 
     public void onBtnDeleteCust(ActionEvent actionEvent) throws SQLException {
+        Customer customer = (Customer) tblCustomers.getSelectionModel().getSelectedItem();
+        if (customer == null) {
+            return;
+        }
         if (showConfirmationAlert("Are you sure you want to delete this customer?")) {
             boolean result = CustomerDAO.deleteCustomer((Customer) tblCustomers.getSelectionModel().getSelectedItem());
             if (!result) {
