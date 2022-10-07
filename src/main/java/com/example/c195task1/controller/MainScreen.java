@@ -87,13 +87,43 @@ public class MainScreen implements Initializable {
         allAppointments.setPredicate(appt -> {return true;});
     }
 
-    public void onBtnRptTotalAppt(ActionEvent actionEvent) {
+    public void onBtnRptTotalAppt(ActionEvent actionEvent) throws IOException, SQLException {
+        Stage stage = (Stage) btnRptTotalAppt.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/c195task1/Report.fxml")); // javafx.fxml.LoadException
+        Parent root = loader.load();
+
+        Report report = loader.getController();
+        report.setModeReport1();
+
+        stage.setTitle("Report 1");
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
-    public void onBtnRptSchedule(ActionEvent actionEvent) {
+    public void onBtnRptSchedule(ActionEvent actionEvent) throws SQLException, IOException {
+        Stage stage = (Stage) btnRptTotalAppt.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/c195task1/Report.fxml")); // javafx.fxml.LoadException
+        Parent root = loader.load();
+
+        Report report = loader.getController();
+        report.setModeReport2();
+
+        stage.setTitle("Report 2");
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
-    public void onBtnRptOther(ActionEvent actionEvent) {
+    public void onBtnRptOther(ActionEvent actionEvent) throws IOException, SQLException {
+        Stage stage = (Stage) btnRptTotalAppt.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/c195task1/Report.fxml")); // javafx.fxml.LoadException
+        Parent root = loader.load();
+
+        Report report = loader.getController();
+        report.setModeReport3();
+
+        stage.setTitle("Report 3");
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     public void onBtnAddAppt(ActionEvent actionEvent) throws IOException, SQLException {

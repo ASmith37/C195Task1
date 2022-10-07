@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c195task1.controller.Report">
+   <children>
+      <Label fx:id="lblReport" layoutX="24.0" layoutY="21.0" text="Report">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnClose" layoutX="1530.0" layoutY="746.0" mnemonicParsing="false" onAction="#onBtnClose" text="Close" />
+      <TableView fx:id="tblReport" layoutX="24.0" layoutY="65.0" prefHeight="662.0" prefWidth="1552.0" />
+   </children>
+</AnchorPane>
