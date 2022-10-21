@@ -1,6 +1,7 @@
 package com.example.c195task1.helper;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 
 public class DBConnection {

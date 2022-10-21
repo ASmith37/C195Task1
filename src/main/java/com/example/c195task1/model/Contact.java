@@ -21,6 +21,22 @@ public class Contact {
     }
 
     /**
+     * Get the ID of the contact
+     * @return integer of ID
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Get the name of the contact
+     * @return string containing contact name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
      * Convert the contact to a string to display
      * @return a string containing a representation of the contact
      */

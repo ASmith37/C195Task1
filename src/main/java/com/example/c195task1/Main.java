@@ -35,6 +35,7 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
         //Locale.setDefault(Locale.FRENCH);
+        System.out.println(System.getProperty( "javafx.runtime.version" ));
         launch();
     }
 }

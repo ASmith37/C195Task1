@@ -112,4 +112,11 @@ public class Customer {
         return countryId;
     }
 
+    /**
+     * Get the country name
+     * @return string containing country name
+     */
+    public String getCountry() {
+        return country;
+    }
 }
