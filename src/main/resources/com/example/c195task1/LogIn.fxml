@@ -14,7 +14,7 @@
          <font>
             <Font size="20.0" />
          </font></Label>
-      <Label fx:id="lblZoneIdOut" layoutX="680.0" layoutY="60.0" text="en-US">
+      <Label fx:id="lblZoneIdOut" layoutX="580.0" layoutY="95.0" text="en-US">
          <font>
             <Font size="20.0" />
          </font></Label>

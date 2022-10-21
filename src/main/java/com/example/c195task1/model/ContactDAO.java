@@ -8,7 +8,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Class containing the data access methods related to the Contact class
+ */
 public class ContactDAO {
+    /**
+     * Gets a list of all contacts in the database
+     * @return a list of all contacts
+     * @throws SQLException
+     */
     public static ObservableList<Contact> getAllContacts() throws SQLException {
         ObservableList<Contact> allContacts = FXCollections.observableArrayList();
         DBConnection.openConnection();

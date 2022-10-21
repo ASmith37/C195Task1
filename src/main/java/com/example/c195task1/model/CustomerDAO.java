@@ -9,8 +9,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Class containing data access methods relating to the Customer object
+ */
 public class CustomerDAO {
-    // get all customers
+    /**
+     * Get a list of all customers from the database
+     * @return a list of Customer object
+     * @throws SQLException
+     */
     public static ObservableList<Customer> getAllCustomers() throws SQLException {
         ObservableList<Customer> allUsers = FXCollections.observableArrayList();
         DBConnection.openConnection();
@@ -40,6 +47,12 @@ public class CustomerDAO {
         DBConnection.closeConnection();
         return allUsers;
     }
+
+    /**
+     * Generate a unique customer ID
+     * @return integer of the created customer ID
+     * @throws SQLException
+     */
     public static int generateCustomerId() throws SQLException {
         DBConnection.openConnection();
         String sql1 = "SELECT Count(*) FROM customers;";
@@ -58,6 +71,13 @@ public class CustomerDAO {
         DBConnection.closeConnection();
         return result;
     }
+
+    /**
+     * Add or modify a customer in the database
+     * @param customer the customer to add or modify
+     * @param isAnUpdate true if the customer exists and is being modified, false if the customer is new
+     * @throws SQLException
+     */
     public static void addUpdateCustomer(Customer customer, boolean isAnUpdate) throws SQLException {
         String sql;
         if (isAnUpdate) {
@@ -76,6 +96,14 @@ public class CustomerDAO {
         st1.executeUpdate(sql);
         DBConnection.closeConnection();
     }
+
+    /**
+     * Delete a customer from the database.
+     * If the customer has linked appointment, do not delete them.
+     * @param customer the customer to delete
+     * @return boolean indicating if the delete was successful
+     * @throws SQLException
+     */
     public static boolean deleteCustomer(Customer customer) throws SQLException {
         String sql1 = String.format("SELECT COUNT(*) FROM appointments WHERE Customer_ID = %d", customer.getId());
         DBConnection.openConnection();

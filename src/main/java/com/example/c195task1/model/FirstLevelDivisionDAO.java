@@ -7,7 +7,16 @@ import javafx.collections.ObservableList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+/**
+ * Class containing data access methods related to the FirstLevelDivision class
+ */
 public class FirstLevelDivisionDAO {
+    /**
+     * Get a list of all first-level division in the database
+     * @return list of FirstLevelDivision objects
+     * @throws SQLException
+     */
     public static ObservableList<FirstLevelDivision> getAllFLDs() throws SQLException {
         ObservableList allFLDs = FXCollections.observableArrayList();
         DBConnection.openConnection();

@@ -22,6 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
 
+/** This class controls the appointments screen. This screen allows for adding and updating appointments **/
 public class AppointmentAddUpdate implements Initializable {
     public Label lblAddUpdateAppt;
     public Label lblApptId;
@@ -49,6 +50,8 @@ public class AppointmentAddUpdate implements Initializable {
     private boolean isUpdateMode;
     private ObservableList<Customer> allCustomers;
     private ObservableList<Contact> allContacts;
+
+    /** The initialize method populates the screen's tableviews with data on customers and appointments **/
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -61,6 +64,11 @@ public class AppointmentAddUpdate implements Initializable {
         }
     }
 
+    /** This is called when the Save button is clicked.
+     * It checks the validity of all the inputs in the form.
+     * If inputs are invalid, it will show a relevant error message.
+     * If the input sare valid, it calls the DAO to add or update the appointment.
+     * @param actionEvent The ActionEvent of the button press**/
     public void onBtnApptSave(ActionEvent actionEvent) throws IOException, SQLException {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd h:mm a");
         int apptId;
@@ -145,9 +153,15 @@ public class AppointmentAddUpdate implements Initializable {
         backToMainScreen();
     }
 
+    /** This is called when the cancel button is pressed.
+     * It returns the application to the main screen.
+     * @param actionEvent The ActionEvent of the button press
+     * **/
     public void onBtnApptCancel(ActionEvent actionEvent) throws IOException {
         backToMainScreen();
     }
+    /** This checks if the inputs in the form are valid.
+     * @return boolean indicating if all fields have valid data **/
     private boolean validateData() {
         if (
                 txtApptId.getText().isEmpty()
@@ -168,6 +182,8 @@ public class AppointmentAddUpdate implements Initializable {
         }
         return true;
     }
+    /** Sets values appropriate for adding a new appointment.
+     * This is called by the main screen when the 'add' button is pressed. **/
     public void setModeAdd() throws SQLException {
         isUpdateMode = false;
         lblAddUpdateAppt.setText("Add Appointment");
@@ -175,6 +191,9 @@ public class AppointmentAddUpdate implements Initializable {
         txtApptUserId.setText(String.valueOf(UserData.userId));
         cmbApptCustomerId.setDisable(false);
     }
+    /** Sets values appropriate for modifying and existing appointment.
+     * Also loads values of the existing appointment into the form for modification.
+     * This is called by the main screen when 'edit' is pressed. **/
     public void setModeModify(Appointment appointment) {
         isUpdateMode = true;
         lblAddUpdateAppt.setText("Modify Appointment");
@@ -202,6 +221,7 @@ public class AppointmentAddUpdate implements Initializable {
         }
 
     }
+    /** Exits the appointment screen and goes back to the main screen. **/
     private void backToMainScreen() throws IOException {
         Stage stage = (Stage) btnApptSave.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/c195task1/MainScreen.fxml")); // javafx.fxml.LoadException
@@ -211,12 +231,18 @@ public class AppointmentAddUpdate implements Initializable {
         stage.show();
     }
 
+    /** Converts between the computer's DateTime and the date/time of EST, which is the timezone of the business. **/
     public static LocalDateTime localDateTimeToEst(LocalDateTime ldt) {
         return ZonedDateTime.ofInstant(ZonedDateTime.of(ldt, ZoneId.systemDefault()).toInstant(), ZoneId.of("Etc/GMT+5")).toLocalDateTime();
     }
+    /** Converts an EST time, the time of the business, to a time local to the computer **/
     public static LocalDateTime estLocalDateTimeToLocal(LocalDateTime est) {
         return ZonedDateTime.ofInstant(ZonedDateTime.of(est, ZoneId.of("Etc/GMT+5")).toInstant(), ZoneId.systemDefault()).toLocalDateTime();
     }
+    /** Checks if the appointment time given is valid.
+     * @param start The start time of the appointment
+     * @param end The end time of the appointment
+     * @return boolean indicating if the appointment time is valid. **/
     public static boolean isValidAppointmentTime(LocalDateTime start, LocalDateTime end) {
         LocalDateTime estStart = localDateTimeToEst(start);
         System.out.println(estStart);
@@ -241,6 +267,9 @@ public class AppointmentAddUpdate implements Initializable {
         }
         return true;
     }
+    /** This is used to display an error message to the user.
+     * Typically is used to say a form field has invalid data.
+     * @param message The message to display to the user in the error message box. **/
     private void showError(String message) {
         Alert error = new Alert(Alert.AlertType.ERROR);
         error.setTitle("Error");

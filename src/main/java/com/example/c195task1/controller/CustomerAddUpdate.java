@@ -18,6 +18,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+/** This class controls the Customer screen.
+ * It is used to add and update customer records **/
 public class CustomerAddUpdate implements Initializable {
     public Label lblAddUpdateCust;
     public Label lblCustId;
@@ -40,6 +42,8 @@ public class CustomerAddUpdate implements Initializable {
     private ObservableList<Country> allCountries;
     private ObservableList<FirstLevelDivision> allFLDs;
 
+    /** This populates data inside the controller and populates the list of countries.
+     * It is called when the controller is being initialized **/
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -50,6 +54,8 @@ public class CustomerAddUpdate implements Initializable {
         }
         cmbCountry.setItems(allCountries);
     }
+    /** Displays error messages to the user.
+     * @param message The error message to display **/
     private void showMessage(String message) {
         Alert error = new Alert(Alert.AlertType.ERROR);
         error.setTitle("Error");
@@ -57,6 +63,10 @@ public class CustomerAddUpdate implements Initializable {
         error.setContentText(message);
         error.showAndWait();
     }
+    /** This is called by the save button.
+     * Check if the data is valid. If so, add or update the customer records.
+     * @param actionEvent The ActionEvent of the button press
+     * **/
     public void onBtnCustSave(ActionEvent actionEvent) throws IOException, SQLException {
         if (!validateData()) {
             return;
@@ -74,15 +84,24 @@ public class CustomerAddUpdate implements Initializable {
         backToMainScreen();
     }
 
+    /** Return the program to the main screen.
+     * This is called when the cancel button is pressed.
+     * @param actionEvent The ActionEvent of the button press
+     * **/
     public void onBtnCustCancel(ActionEvent actionEvent) throws IOException {
         backToMainScreen();
     }
+    /** Sets the screen in a manner suitable for adding a new customer **/
     public void setModeAdd() throws SQLException {
         isUpdateMode = false;
         lblAddUpdateCust.setText("Add Customer");
         txtCustId.setText(String.valueOf(CustomerDAO.generateCustomerId()));
         // cmbCountry.setPromptText("Select a country");
     }
+    /** Sets the screen in a manner suitable for updating a customer.
+     * This includes loading the existing customer data into the form.
+     * @param customer The Customer object that will be modified.
+     * **/
     public void setModeUpdate(Customer customer) {
         isUpdateMode = true;
         lblAddUpdateCust.setText("Modify Customer");
@@ -112,6 +131,8 @@ public class CustomerAddUpdate implements Initializable {
         }
     }
 
+    /** Called when the country combobox is modified.
+     * This then updates the list of divisions with a list appropriate to the selected country **/
     public void onCmbCountry(ActionEvent actionEvent) {
         int countryId = ((Country) cmbCountry.getSelectionModel().getSelectedItem()).getCountryId();
         cmbDivision.getSelectionModel().clearSelection();
@@ -120,6 +141,8 @@ public class CustomerAddUpdate implements Initializable {
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));
         cmbDivision.setItems(newFLDList);
     }
+    /** Check if the data in the form is valid
+     * @return a boolean indicating if the data is valid **/
     private boolean validateData() {
         if (txtCustName.getText().isEmpty()
          || txtCustAddress.getText().isEmpty()
@@ -133,6 +156,7 @@ public class CustomerAddUpdate implements Initializable {
         }
         return true;
     }
+    /** Return the program to the main screen **/
     private void backToMainScreen() throws IOException {
         Stage stage = (Stage) btnCustSave.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/c195task1/MainScreen.fxml")); // javafx.fxml.LoadException

@@ -24,43 +24,51 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
+/** Implements the UI for displaying reports **/
 public class Report implements Initializable {
     public Label lblReport;
     public Button btnClose;
     public TableView tblReport;
 
-
+    /** Does nothing **/
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
 
+    /** A class used to hold the data for the first report type. **/
     public class Report1Class {
         String type;
         int year;
         String month;
         int count;
 
+        /** Creates a new instance of the data class for the 1st report type **/
         public Report1Class(String type, int year, String month, int count) {
             this.type = type;
             this.year = year;
             this.month = month;
             this.count = count;
         }
+        /** Gets the appointment type string **/
         public String getType() {
             return type;
         }
+        /** Gets the year of the appointment accumulation**/
         public int getYear() {
             return year;
         }
+        /** Gets the month of the appointment accumulation**/
         public String getMonth() {
             return month;
         }
+        /** Gets the count of appointments of that type and year and month **/
         public int getCount() {
             return count;
         }
 
     }
+    /** Called after controller instantiation to set the screen to display the 1st report type **/
     public void setModeReport1() throws SQLException {
         lblReport.setText("Total customer appointments by type and month");
         String sql = "SELECT `Type`, YEAR(Start) as Year, monthname(str_to_date(MONTH(Start), '%m')) as Month, COUNT(*) as Count\n" +
@@ -94,6 +102,7 @@ public class Report implements Initializable {
         DBConnection.closeConnection();
         tblReport.setItems(data);
     }
+    /** A class used to hold the data for the 2nd report type. **/
     public class Report2Class {
         String employee;
         int appointmentId;
@@ -104,6 +113,7 @@ public class Report implements Initializable {
         LocalDateTime end;
         int customerId;
 
+        /** Creates a new instance of the data class for the 2nd report type **/
         public Report2Class(String employee, int appointmentId, String title, String type, String description, LocalDateTime start, LocalDateTime end, int customerId) {
             this.employee = employee;
             this.appointmentId = appointmentId;
@@ -115,38 +125,40 @@ public class Report implements Initializable {
             this.customerId = customerId;
         }
 
+        /** Gets the employee data for a row **/
         public String getEmployee() {
             return employee;
         }
-
+        /** Gets the appointment ID for a row **/
         public int getAppointmentId() {
             return appointmentId;
         }
-
+        /** Gets the appointment title for a row **/
         public String getTitle() {
             return title;
         }
-
+        /** Gets the appointment type for a row **/
         public String getType() {
             return type;
         }
-
+        /** Gets the appointment description for a row **/
         public String getDescription() {
             return description;
         }
-
+        /** Gets the appointment start time for a row **/
         public LocalDateTime getStart() {
             return start;
         }
-
+        /** Gets the appointment end time for a row **/
         public LocalDateTime getEnd() {
             return end;
         }
-
+        /** Gets the customer ID for a row **/
         public int getCustomerId() {
             return customerId;
         }
     }
+    /** Called after controller instantiation to set the screen to display the 2nd report type **/
     public void setModeReport2() throws SQLException {
         lblReport.setText("Schedule");
         String sql = "SELECT Contact_Name as Employee, Appointment_ID, `Title`, `Type`, `Description`, Start, End, Customer_ID\n" +
@@ -198,35 +210,37 @@ public class Report implements Initializable {
         DBConnection.closeConnection();
         tblReport.setItems(data);
     }
+    /** A class used to hold the data for the 3rd report type. **/
     public class Report3Class {
         int year;
         int week;
         String contactName;
         double billableHours;
-
+        /** Creates a new instance of the data class for the 2nd report type **/
         public Report3Class(int year, int week, String contactName, double billableHours) {
             this.year = year;
             this.week = week;
             this.contactName = contactName;
             this.billableHours = billableHours;
         }
-
+        /** Gets the year value from the object **/
         public int getYear() {
             return year;
         }
-
+        /** Gets the week value of the object **/
         public int getWeek() {
             return week;
         }
-
+        /** Gets the contact name value of the object **/
         public String getContactName() {
             return contactName;
         }
-
+        /** Gets the sum of billable hours in the object **/
         public double getBillableHours() {
             return billableHours;
         }
     }
+    /** Called after controller instantiation to set the screen to display the 3rd report type **/
     public void setModeReport3() throws SQLException {
         lblReport.setText("Billable hours by employee and week");
         String sql = "SELECT YEAR(Start) as Year, WEEK(Start) as Week, Contact_Name, SUM(time_to_sec(timediff(End, Start)))/60/60 as Billable_Hours\n" +
@@ -263,6 +277,12 @@ public class Report implements Initializable {
         DBConnection.closeConnection();
         tblReport.setItems(data);
     }
+
+    /** Contains the functionality for the close button.
+     * returns to the main screen
+     * @param actionEvent The action event of the button click
+     * @throws IOException
+     */
     public void onBtnClose(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) btnClose.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/c195task1/MainScreen.fxml")); // javafx.fxml.LoadException

@@ -8,7 +8,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * A class to hold data access methods related to the Country class
+ */
 public class CountryDAO {
+    /**
+     * Get a list of all countries in the database
+     * @return a list of Country objects
+     * @throws SQLException
+     */
     public static ObservableList<Country> getAllCountries() throws SQLException {
         ObservableList allCountries = FXCollections.observableArrayList();
         DBConnection.openConnection();

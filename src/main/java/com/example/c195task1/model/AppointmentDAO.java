@@ -10,13 +10,31 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+/** Hold the DAO methods for the Appointment class
+ */
 public class AppointmentDAO {
+    /** Converts a LocalDateTime in the user's timezone to EST
+     * @param ldt the user's LocalDateTime
+     * @return a LocalDateTime of the time in EST
+     */
     private static LocalDateTime localDateTimeToEst(LocalDateTime ldt) {
         return ZonedDateTime.ofInstant(ZonedDateTime.of(ldt, ZoneId.systemDefault()).toInstant(), ZoneId.of("Etc/GMT+5")).toLocalDateTime();
     }
+
+    /**
+     * Converts an EST time to the user's local time
+     * @param est the time in EST
+     * @return a LocalDateTime in the user's timezone
+     */
     private static LocalDateTime estLocalDateTimeToLocal(LocalDateTime est) {
         return ZonedDateTime.ofInstant(ZonedDateTime.of(est, ZoneId.of("Etc/GMT+5")).toInstant(), ZoneId.systemDefault()).toLocalDateTime();
     }
+
+    /**
+     * Gets a list of all the appointments in the database
+     * @return a list of Appointments
+     * @throws SQLException
+     */
     public static ObservableList<Appointment> getAllAppointments() throws SQLException {
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
         DBConnection.openConnection();
@@ -51,6 +69,12 @@ public class AppointmentDAO {
 
         return allAppointments;
     }
+
+    /**
+     * Generates a new, unique, appointment ID
+     * @return integer of unused appointment ID
+     * @throws SQLException
+     */
     public static int generateAppointmentId() throws SQLException {
         DBConnection.openConnection();
         String sql1 = "SELECT Count(*) FROM appointments;";
@@ -69,6 +93,13 @@ public class AppointmentDAO {
         DBConnection.closeConnection();
         return result;
     }
+
+    /**
+     * Checks to see if there are any overlapping appointments for the same customer
+     * @param appointment The appointment in question
+     * @return boolean value indicating if another appointment in the database overlaps this one
+     * @throws SQLException
+     */
     public static boolean isThereOverlappingAppointment(Appointment appointment) throws SQLException {
         DBConnection.openConnection();
         PreparedStatement ps = DBConnection.connection.prepareStatement(
@@ -89,6 +120,13 @@ public class AppointmentDAO {
         DBConnection.closeConnection();
         return count > 0;
     }
+
+    /**
+     * Adds or updates an appointment in the database
+     * @param appointment an appointment object filled with data
+     * @param isAnUpdate true if the appointment exists and is being modified, false if the appointment is new
+     * @throws SQLException
+     */
     public static void addUpdateAppointment(Appointment appointment, boolean isAnUpdate) throws SQLException {
         PreparedStatement ps;
         DBConnection.openConnection();
@@ -129,6 +167,12 @@ public class AppointmentDAO {
         ps.executeUpdate();
         DBConnection.closeConnection();
     }
+
+    /**
+     * Deletes the specified appointment from the database
+     * @param appointment the appointment to delete
+     * @throws SQLException
+     */
     public static void deleteAppointment(Appointment appointment) throws SQLException {
         String sql = "DELETE FROM appointments\n" +
                 "WHERE Appointment_ID = " + String.valueOf(appointment.getAppointmentId());
@@ -137,6 +181,12 @@ public class AppointmentDAO {
         statement.executeUpdate(sql);
         DBConnection.closeConnection();
     }
+
+    /**
+     * Check the database to see if there is an appointment starting in the next 15 minutes
+     * @return an appointment starting soon, or null if no appointments start soon
+     * @throws SQLException
+     */
     public static Appointment checkForAppointmentSoon() throws SQLException {
         DBConnection.openConnection();
         PreparedStatement ps = DBConnection.connection.prepareStatement(
