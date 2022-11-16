@@ -72,7 +72,10 @@ public class MainScreen implements Initializable {
     }
 
     /** Functionality when the week radio button is pressed.
-     * Uses a lambda to implement the logic to determine if an appointment is within the week
+     * This filters the list of appointment to those occurring in the next rolling week.
+     *
+     * This functionality uses a lambda expression to implement the logic to determine if an appointment is within the week.
+     * A lambda expression is chosen because the logic is small and the code is more readable this way.
      * @param actionEvent The ActionEvent of the button press **/
     public void onRdApptWeek(ActionEvent actionEvent) {
         LocalDateTime windowStart = LocalDateTime.of(LocalDateTime.now().toLocalDate(), LocalTime.of(0, 0));
@@ -83,7 +86,10 @@ public class MainScreen implements Initializable {
     }
 
     /** Functionality when the month radio button is pressed.
-     * Uses a lambda to implement the logic to determine if an appointment is within the month
+     * This filters the list of appointment to those occurring in the next rolling month.
+     *
+     * This functionality uses a lambda expression to implement the logic to determine if an appointment is within the week.
+     * A lambda expression is chosen because the logic is small and the code is more readable this way.
      * @param actionEvent The ActionEvent of the button press **/
     public void onRdApptMonth(ActionEvent actionEvent) {
         LocalDateTime windowStart = LocalDateTime.of(LocalDateTime.now().toLocalDate(), LocalTime.of(0, 0));
@@ -95,6 +101,9 @@ public class MainScreen implements Initializable {
 
     /** Functionality when the all radio button is pressed.
      * Shows all the appointments
+     *
+     * This uses a lambda expression because the code needs a super simple predicate, and writing it out as a separate
+     * function would be more complicated and harder to read.
      * @param actionEvent The ActionEvent of the button press **/
     public void onRdApptAll(ActionEvent actionEvent) {
         allAppointments.setPredicate(appt -> {return true;});
@@ -191,7 +200,9 @@ public class MainScreen implements Initializable {
         if (appointment == null) {
             return;
         }
-        if (showConfirmationAlert("Are you sure you want to delete this appointment?")) {
+        if (showConfirmationAlert(String.format("Are you sure you want to delete this appointment?\nAppointment ID: %d\nAppointment type: %s",
+                appointment.getAppointmentId(),
+                appointment.getType()))) {
             AppointmentDAO.deleteAppointment(appointment);
         }
         refreshAppointments();
@@ -243,13 +254,9 @@ public class MainScreen implements Initializable {
             return;
         }
         if (showConfirmationAlert("Are you sure you want to delete this customer?")) {
-            boolean result = CustomerDAO.deleteCustomer((Customer) tblCustomers.getSelectionModel().getSelectedItem());
-            if (!result) {
-                showMessage("Delete failed. You must delete all appointments first.");
-            }
-            else {
-                refreshCustomers();
-            }
+            CustomerDAO.deleteCustomer((Customer) tblCustomers.getSelectionModel().getSelectedItem());
+            refreshCustomers();
+            refreshAppointments();
         }
     }
     /** Reloads the list of customers from the database **/

@@ -16,8 +16,9 @@ public class Logger {
     public static void log(String message) throws IOException {
         DateTimeFormatter d = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
         String filename = "LoginActivity.txt";
-        PrintWriter pw = new PrintWriter(filename);
+        FileWriter fw = new FileWriter(filename, true);
+        PrintWriter pw = new PrintWriter(fw);
         pw.println(String.format("%s | %s", LocalDateTime.now().format(d), message));
-        pw.close();
+        fw.close();
     }
 }

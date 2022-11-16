@@ -99,25 +99,19 @@ public class CustomerDAO {
 
     /**
      * Delete a customer from the database.
-     * If the customer has linked appointment, do not delete them.
+     * If the customer has linked appointments, delete them first
      * @param customer the customer to delete
      * @return boolean indicating if the delete was successful
      * @throws SQLException
      */
-    public static boolean deleteCustomer(Customer customer) throws SQLException {
-        String sql1 = String.format("SELECT COUNT(*) FROM appointments WHERE Customer_ID = %d", customer.getId());
+    public static void deleteCustomer(Customer customer) throws SQLException {
+        String sql1 = String.format("DELETE FROM appointments WHERE Customer_ID = %d", customer.getId());
         DBConnection.openConnection();
         Statement st1 = DBConnection.connection.createStatement();
-        ResultSet r1 = st1.executeQuery(sql1);
-        r1.next();
-        if (r1.getInt(1) > 0) {
-            DBConnection.closeConnection();
-            return false;
-        }
+        st1.executeUpdate(sql1);
         String sql2 = String.format("DELETE FROM customers WHERE Customer_ID = %d", customer.getId());
         Statement st2 = DBConnection.connection.createStatement();
         st2.executeUpdate(sql2);
         DBConnection.closeConnection();
-        return true;
     }
 }
