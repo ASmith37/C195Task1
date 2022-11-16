@@ -1,6 +1,6 @@
 # Description
 
-This application was made to fulfil the requirements for a cource in a computer science degree.
+This application was made to fulfil the requirements for a cource in a computer science degree. It is written in Java. It uses JavaFX to make a GUI. It uses MySQL to store data. It uses MVC and DAO patterns internally.
 
 Application version: 0.0.1
 
